@@ -1,7 +1,4 @@
 from web3 import Web3
-from eth_account import Account
-
-#random_address = Web3.toChecksumAddress("0x6dC0c0be4c8B2dFE750156dc7d59FaABFb5B923D")
 
 address = Web3.toChecksumAddress("0x79387b8a5d09e7b1613532a180bdc3d9ef2aab25")
 private_key_hex = "0x431547bea28806bd27a871333e186a05eea3c53ec6a01865f655fd244b2ea497"
@@ -27,19 +24,19 @@ def welcome():
     amount = int(input())
     return (receiver, amount, nonce)
 
-#private_key = extract_key(web3)
+#private_key = extract_key(web3)    #if you need to reimport keystore, for now I imported it and stored in variable
 (receiver, amount, nonce) = welcome()
 
 tx = {
     'nonce': nonce,
+    'from': address,
     'to': receiver,
-    #'value': web3.toWei(amount, 'ether'),
-    'value': amount,
+    'value': web3.toWei(amount, 'ether'),
+    #'value': amount,
     'gas': 2000000,
     'gasPrice': web3.toWei('50', 'gwei'),
     'data': b'',
 }
 signed = web3.eth.account.signTransaction(tx, private_key_hex)
 output = web3.eth.sendRawTransaction(signed.rawTransaction)
-#print(web3.toHex(tx_hash))
-print(output)
+print(tx)
